@@ -1,0 +1,22 @@
+<div class="dashboard-main">
+  <div class="header">
+    <%= @current_account.name %> Invoices
+  </div>
+
+  <div class="invoice-list">
+    <%= for invoice <- @invoices do %>
+      <.invoice_entry invoice={invoice} current_account={@current_account} socket={@socket}/>
+    <% end %>
+  </div>
+</div>
+
+<%= if @live_action == :show_invoice do %>
+  <.modal component={InvoiceAppWeb.InvoiceLive.Show}
+          id={:invoice_modal}
+          invoice={@invoice}
+          current_user={@current_user}
+          current_account={@current_account}
+          return_to={Routes.invoice_index_path(@socket, :index, @current_account.domain)}
+
+  />
+<% end %>

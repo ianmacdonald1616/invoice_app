@@ -1,0 +1,185 @@
+body {
+  background: whitesmoke;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+}
+
+.invoice-list, .header {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.header{
+  font-size: 5rem;
+  font-weight: bold;
+}
+
+.invoice-entry {
+  margin-top: 2rem;
+  padding: 2rem;
+  border: 2px solid darkgrey;
+  border-radius: 15px;
+  color: black;
+}
+
+.invoice-entry:hover {
+  box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  background: lightgrey;
+}
+
+.invoice-entry-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.customer-name {
+  font-weight: bold;
+}
+
+.updated-at {
+  color: grey;
+  font-size: 1.25rem;
+  font-style: italic;
+}
+
+.invoice-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.invoice-subtitle {
+  font-weight: bold;
+}
+
+.invoice-date, .delete-btn, .cancel-btn {
+  color: firebrick;
+}
+
+.invoice-date {
+  font-style: italic;
+  font-weight: bold;
+}
+
+/* Invoice Modal Styling */
+.invoice-header {
+  background: whitesmoke;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.table, .form-data {
+  display: grid;
+  border-collapse: collapse;
+  min-width: 100%;
+  grid-template-columns: 7fr 2fr 1fr;
+}
+
+form {
+  margin-bottom: 0 !important;
+}
+
+.invoice-title {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.edit-customer, .edit-due-date {
+  max-width: 25%;
+}
+
+.customer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid lightgray;
+}
+.customer-title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.invoice-options {
+  float: right;
+}
+
+.line-item-name {
+  font-weight: bold;
+}
+
+.add-line-item-btn {
+  color: mediumseagreen;
+}
+
+.edit-icon-btn {
+  color: grey;
+}
+
+.hidden {
+ display: none;
+}
+
+/* Invoice line item table styling */
+.table-cell {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.header-cell {
+  background: whitesmoke;
+  font-size: 2rem;
+  font-weight: bold;
+  border-top: 1px solid black;
+}
+
+.body-cell {
+  padding-top: .5rem;
+  max-height: 20rem;
+}
+
+.first-cell {
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
+}
+.second-cell {
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+}
+.third-cell {
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.third-cell.body-cell {
+  text-align: center;
+}
+
+.total-row {
+  text-align: right;
+  padding-right: 2rem;
+  font-weight: bold;
+}
+
+.invoice-modal-content {
+  margin-bottom: 5rem;
+}
+
+.close-option {
+  margin-top: 2rem;
+}
+.close-invoice-btn {
+  padding: 1rem;
+  border: 1px solid blue;
+  border-radius: 5px;
+}
+
+.close-invoice-btn:hover {
+  color: whitesmoke;
+  background: blue;
+}
+
+.info-text {
+  font-size: 1.25rem;
+  font-style: italic;
+  color: gray;
+}

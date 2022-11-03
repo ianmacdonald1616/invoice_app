@@ -1,0 +1,137 @@
+<div class="invoice-modal-content">
+  <div class="invoice-header">
+    <div class="invoice-title">Invoice No. <%= @invoice.id %> - <%= @invoice.customer.name %></div>
+    <%= if @manage_invoice do %>
+      <.dialog_modal click_event="toggle-due-date" target={@myself} panel_class="due-date-panel" direction="east">
+        <:header>
+          <span class="panel-header-text">Due Date</span>
+        </:header>
+
+        <.form :let={f}
+                for={@invoice_changeset}
+                id="edit-invoice-form"
+                phx_submit="update-invoice"
+                phx_target={@myself}
+        >
+          <%= date_input f, :due_date, value: @invoice.due_date %>
+          <.form_options id="invoice-panel-options" cancel_event="toggle-due-date" target={@myself} changeset={@invoice_changeset} />
+        </.form>
+      </.dialog_modal>
+    <% end %>
+
+    <div class="click-to-edit edit-due-date" data-toggle="tooltip" data-placement="right" title="Click to manage due date"
+          phx-click="toggle-due-date" phx-target={@myself}>
+      <span class="invoice-date"><%= @invoice.due_date %></span>
+      <div class="info-text">
+        <i class="far fa-calendar"></i>
+        <span>Click to manage due date</span>
+      </div>
+    </div>
+  </div>
+  <div>
+    <%= if @manage_customer do %>
+      <.dialog_modal click_event="toggle-edit-customer" target={@myself} panel_class="customer-panel" direction="east">
+        <:header>
+          <span class="panel-header-text">Customer</span>
+        </:header>
+
+        <.form :let={f}
+                for={@customer_changeset}
+                id="edit-customer-form"
+                phx_submit="update-customer"
+                phx_change="validate-customer"
+                phx_target={@myself}
+        >
+          <div class="customer-input">
+            <%= label f, :name, "Name:" %>
+            <%= text_input f, :name %>
+            <%= InvoiceAppWeb.ErrorHelpers.error_tag(f, :name) %>
+          </div>
+          <div class="customer-input">
+            <%= label f, :email, "Email:" %>
+            <%= email_input f, :email %>
+            <%= InvoiceAppWeb.ErrorHelpers.error_tag(f, :email) %>
+          </div>
+          <.form_options id="customer-form-options" cancel_event="toggle-edit-customer" target={@myself} changeset={@customer_changeset}/>
+        </.form>
+      </.dialog_modal>
+    <% end %>
+    <div class="click-to-edit edit-customer" data-toggle="tooltip" data-placement="right" title="Click to manage customers"
+          phx-click="toggle-edit-customer" phx-target={@myself}>
+      <div class="customer-header">
+        <div class="customer-title">Customer Details</div>
+        <div class="info-text">
+          <i class="fas fa-edit edit-icon-btn"></i>
+          <span>Click to edit</span>
+        </div>
+      </div>
+      <div>
+        <strong>Name: </strong><%= @invoice.customer.name %>
+      </div>
+      <div>
+        <strong>Email: </strong><%= @invoice.customer.email %>
+      </div>
+    </div>
+  </div>
+
+  <div class="invoice-options">
+    <%= if @manage_new_line_item do %>
+    <a href="#" class="cancel-btn" phx-click="toggle-new-line-item" phx-target={@myself}>
+      Cancel <i class="fas fa-minus-square"></i>
+    </a>
+    <% else %>
+      <a href="#" class="add-line-item-btn" phx-click="toggle-new-line-item" phx-target={@myself}>
+        Add Item <i class="fas fa-plus-square"></i>
+      </a>
+    <% end %>
+  </div>
+
+  <div class="table">
+    <div class="table-cell header-cell first-cell">
+      Item Details
+    </div>
+    <div class="table-cell header-cell second-cell">
+      Amount
+    </div>
+    <div class="table-cell header-cell third-cell">
+      Options
+    </div>
+
+    <%= if @manage_new_line_item do %>
+      <.line_item_form line_item_changeset={@line_item_changeset} submit_event="create-line-item" cancel_event="toggle-new-line-item" target={@myself} />
+    <% end %>
+    <%= for line_item <- @invoice.line_items do %>
+      <%= if show_edit_line_item?(line_item, @line_item) do %>
+        <.line_item_form line_item_changeset={@line_item_changeset} submit_event="update-line-item" cancel_event="cancel-edit-line-item" target={@myself} />
+      <% else %>
+        <div class="table-cell first-cell body-cell">
+          <div class="line-item-name"><%= line_item.name %></div>
+          <div><%= line_item.description %></div>
+          <div class="updated-at">(updated <%= from_now(line_item.updated_at) %>)</div>
+        </div>
+        <div class="table-cell second-cell body-cell">
+          <span>$<%= line_item.total %></span>
+          <span><%= @invoice.currency %></span>
+        </div>
+        <div class="table-cell third-cell body-cell">
+          <a href="#" phx-click="edit-line-item" phx-value-item-id={line_item.id} phx-target={@myself}>
+            <i class="fas fa-edit edit-icon-btn"></i>
+          </a>
+          <a href="#" phx-click="delete-line-item" phx-value-item-id={line_item.id} phx-target={@myself}>
+            <i class="fas fa-trash-alt delete-btn"></i>
+          </a>
+        </div>
+      <% end %>
+    <% end %>
+    <div class="total-row table-cell total-text">
+      Total
+    </div>
+    <div class="table-cell total-amount">
+      $<%= @invoice.total %> USDC
+    </div>
+  </div>
+
+  <div class="invoice-options close-option">
+    <a href="#" class="close-invoice-btn" phx-click={hide_modal(:invoice_modal)}>Close</a>
+  </div>
+</div>
